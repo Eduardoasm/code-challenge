@@ -1,16 +1,19 @@
-const express = require('express');
-const fileRouter = require('./routes.js');
+const express = require('express')
+const fileRouter = require('./routes.js')
+const cors = require('cors');
 
-const app = express();
+const app = express()
 
-const PORT = 3000;
+const PORT = 3000
 
-app.use(express.json());
+app.use(express.json())
 
-app.use('/files', fileRouter);
+app.use(cors());
+
+app.use('/files', fileRouter)
 
 app.listen(PORT, () => {
-    console.log(`servidor corriendo en el puerto = ${PORT}`)
+  console.log(`servidor corriendo en el puerto = ${PORT}`)
 })
 
-module.exports = app;
+module.exports = app

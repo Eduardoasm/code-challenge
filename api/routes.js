@@ -1,10 +1,11 @@
-const express = require('express');
-const { secretFiles } = require('./controller.js');
+const express = require('express')
+const { secretFiles, unFormattedSecretFiles } = require('./controller.js')
 
-const Router = express.Router;
+const Router = express.Router
 
-const fileRouter = Router();
+const fileRouter = Router()
 
 fileRouter.get('/data', secretFiles)
+fileRouter.get('/list', unFormattedSecretFiles)
 
-module.exports = fileRouter;
+module.exports = fileRouter
