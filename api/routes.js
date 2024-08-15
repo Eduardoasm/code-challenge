@@ -1,8 +1,10 @@
-import { Router } from 'express';
-import { formatFiles } from './controller.js';
+const express = require('express');
+const { secretFiles } = require('./controller.js');
+
+const Router = express.Router;
 
 const fileRouter = Router();
 
-fileRouter.get('/data', formatFiles)
+fileRouter.get('/data', secretFiles)
 
-export default fileRouter;
+module.exports = fileRouter;
