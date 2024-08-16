@@ -1,6 +1,7 @@
 import React from 'react';
 import { fetchSecretFileByQuery } from '../redux/actions-files';
 import { useDispatch } from 'react-redux'
+import { Toast } from 'bootstrap/dist/js/bootstrap.bundle.min';
 
 export function NavBar({ setSearch, search }) {
   const dispatch = useDispatch();
@@ -9,13 +10,20 @@ export function NavBar({ setSearch, search }) {
     setSearch(event.target.value);
   };
 
-  const handleSubmit = async (event) => {
+const handleSubmit = async (event) => {
+    event.preventDefault();
     try {
-      event.preventDefault()
-      await dispatch(fetchSecretFileByQuery(search))
+      await dispatch(fetchSecretFileByQuery(search));
     } catch (error) {
-      console.log("Error")
+      showToast('Invalid file name');
     }
+  };
+
+  const showToast = (message) => {
+    const toastElement = document.getElementById('errorToast');
+    const toast = new Toast(toastElement);
+    toastElement.querySelector('.toast-body').textContent = message;
+    toast.show();
   };
 
   return (
@@ -42,6 +50,16 @@ export function NavBar({ setSearch, search }) {
             </button>
         </form>
       </nav>
+      </div>
+      <div className="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="errorToast" className="toast" role="alert" aria-live="assertive" aria-atomic="true">
+          <div className="toast-header">
+            <strong className="me-auto">Error</strong>
+            <button type="button" className="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div className="toast-body">
+          </div>
+        </div>
       </div>
     </>
   )

@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 export const FETCH_SECRET_FILES = 'FETCH_SECRET_FILES';
-export const FETCH_SECRET_FILE_BY_QUERY = 'FETCH_SECRET_FILE_BY_QUERY';
 
 export function fetchSecretFiles(){
   return async function(dispatch){

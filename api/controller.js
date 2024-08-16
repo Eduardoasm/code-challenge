@@ -22,9 +22,7 @@ async function secretFiles (req, res) {
       return res.status(200).json(data)
     } else {
       const { files } = await getSecretFiles()
-
       const data = await formatFiles(files)
-
       return res.status(200).json(data)
     }
   } catch (error) {

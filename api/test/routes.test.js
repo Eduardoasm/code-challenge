@@ -2,8 +2,13 @@ const chai = require('chai')
 const chaiHttp = require('chai-http')
 const { expect } = chai
 const server = require('../index.js')
+const sinon = require('sinon');
 
 chai.use(chaiHttp)
+
+afterEach(() => {
+  sinon.restore()
+})
 
 describe('GET /files/data', function () {
   it('should fetch all files data and return status 200', function (done) {
@@ -16,7 +21,8 @@ describe('GET /files/data', function () {
         done()
       })
   })
-})
+
+});
 
 describe('GET /files/data?fileName=file', function () {
   it('should fetch data and return status 200 with the correct fileName', function (done) {
