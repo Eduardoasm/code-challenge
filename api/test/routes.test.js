@@ -1,7 +1,7 @@
 const chai = require('chai')
 const chaiHttp = require('chai-http')
 const { expect } = chai
-const server = require('../index.js') // Asegúrate de que esta ruta apunte a tu archivo de entrada de Express
+const server = require('../index.js')
 const sinon = require('sinon')
 const service = require('../service.js')
 

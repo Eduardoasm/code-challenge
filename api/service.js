@@ -18,6 +18,7 @@ async function getSecretFiles () {
     }
 
     const response = await fetch('https://echo-serv.tbxnet.com/v1/secret/files', options)
+    /** pendiente aqui */
     const textResponse = await response.text()
     const data = JSON.parse(textResponse)
     return data
@@ -50,8 +51,7 @@ async function downloadSecretFile (file) {
       console.log('error')
     }
 
-    const data = await response.text()
-    return data
+    return response.text()
   } catch (error) {
     console.log('error', error)
   }

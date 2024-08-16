@@ -25,14 +25,6 @@ async function formatFiles (files) {
   return allData
 }
 
-async function formatFile (file) {
-  const data = csvToObject(file)
-  const validate = validateFields(data)
-  const dataParse = parseData(validate)
-
-  return dataParse
-}
-
 /**
  * @function csvToObject
  * @description Converts CSV content to an array of objects.
@@ -96,10 +88,10 @@ function parseData (files) {
  */
 function validateFields (fields) {
   return fields.filter((field) => {
-    if (!isValidNumber(field.number)) return false
-    if (!isValidCSVFileName(field.file)) return false
-    if (!isValidHexadecimal32(field.hex)) return false
-    if (!isValidText(field.text)) return false
+    if (!isValidNumber(field?.number)) return false
+    if (!isValidCSVFileName(field?.file)) return false
+    if (!isValidHexadecimal32(field?.hex)) return false
+    if (!isValidText(field?.text)) return false
     return true
   })
 }
@@ -119,4 +111,4 @@ async function unformattedFiles (files) {
   return allData
 }
 
-module.exports = { formatFiles, unformattedFiles, formatFile }
+module.exports = { formatFiles, unformattedFiles }
