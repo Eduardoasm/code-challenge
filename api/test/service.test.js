@@ -1,37 +1,59 @@
-// const chai = require('chai')
-// const sinon = require('sinon')
-// const fetch = require('node-fetch')
-// const { expect } = chai
-// const { getSecretFiles } = require('../service')
+const { expect } = require('chai');
+const sinon = require('sinon');
+const fetch = require('node-fetch');
+const service = require('../service');
 
-// describe('getSecretFiles', () => {
-//   let fetchStub
+describe('getSecretFiles', function () {
 
-//   beforeEach(() => {
-//     fetchStub = sinon.stub(fetch, 'default')
-//   })
+  afterEach(function () {
+    sinon.restore();
+  });
+  
+  it('should throw an error if fetch is fails', async function () {
+    sinon.stub(fetch, 'Promise').returns(Promise.reject())
+    try {
+      await service.getSecretFiles();
+    } catch (error) {
+      expect(error.message).to.include('Error to fetch secret files');
+    }
+  });
+  
+  it('should return parsed JSON when fetch is successful', async function () {
+    const fakeResponse = JSON.stringify(['file1.csv']);
+    sinon.stub(fetch, 'Promise').returns(Promise.resolve({
+      status: 200,
+      text: () => Promise.resolve(fakeResponse)
+    })) 
+      const response = await service.getSecretFiles();
 
-//   afterEach(() => {
-//     fetchStub.restore()
-//   })
+      expect(response).to.be.an('array');
+      expect(response).to.include('file1.csv');
+  });
+})
 
-//   it('debería retornar los datos correctamente', async () => {
-//     const fakeResponse = JSON.stringify({ files: ['file1', 'file2'] })
-//     fetchStub.resolves({
-//       text: () => Promise.resolve(fakeResponse)
-//     })
+describe('downloadSecretFile', function () {
 
-//     const data = await getSecretFiles()
-//     expect(data).to.deep.equal({ files: ['file1', 'file2'] })
-//   })
+  afterEach(function () {
+    sinon.restore();
+  });
+  
+  it('should return parsed JSON when fetch is successful', async function () {
+    const fakeFileData = 'file,text,number,hex\nfile1,someText,1234,abcd1234abcd1234abcd1234abcd1234\n';
+    sinon.stub(fetch, 'Promise').returns(Promise.resolve({
+      status: 200,
+      text: () => Promise.resolve(fakeFileData)
+    })) 
+    const response = await service.downloadSecretFile();
 
-//   it('debería manejar errores correctamente', async () => {
-//     fetchStub.rejects(new Error('Network error'))
+    expect(response).to.be.a('string');
+    expect(response).to.include('file');
+    expect(response).to.include('text');
+    expect(response).to.include('number');
+    expect(response).to.include('hex');
+    expect(response).to.include('file1');
+    expect(response).to.include('someText');
+    expect(response).to.include('1234');
+    expect(response).to.include('abcd1234abcd1234abcd1234abcd1234');
+  });
 
-//     try {
-//       await getSecretFiles()
-//     } catch (error) {
-//       expect(error.message).to.equal('Network error')
-//     }
-//   })
-// })
+})

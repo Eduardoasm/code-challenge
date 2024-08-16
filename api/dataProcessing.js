@@ -41,13 +41,12 @@ function csvToObject (csv) {
     const currentLine = lines[i].split(',')
     /** Check if the number of fields matches the number of headers
     This ensures that the current line is valid and corresponds correctly to the headers */
-    // if (currentLine.length === headers.length) {
-    // console.log('currentLine', currentLine)
+    if (currentLine.length === headers.length) {
     for (let j = 0; j < headers.length; j++) {
       obj[headers[j]?.trim()] = currentLine[j]?.trim()
     }
     result.push(obj)
-    // }
+    }
   }
 
   return result
@@ -96,19 +95,4 @@ function validateFields (fields) {
   })
 }
 
-async function unformattedFiles (files) {
-  let allData = []
-  for (let index = 0; index < files.length; index += 1) {
-    const element = await downloadSecretFile(files[index])
-    if (!element) {
-      console.error(`Error downloading file: ${files[index]}`)
-      continue
-    }
-    const data = csvToObject(element)
-    allData = allData.concat(data)
-  }
-
-  return allData
-}
-
-module.exports = { formatFiles, unformattedFiles }
+module.exports = { formatFiles }

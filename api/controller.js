@@ -1,5 +1,5 @@
-const { getSecretFiles } = require('./service.js')
-const { formatFiles, unformattedFiles } = require('./dataProcessing.js')
+const { getSecretFiles, downloadSecretFile } = require('./service.js')
+const { formatFiles } = require('./dataProcessing.js')
 
 /**
  * @function secretFiles
@@ -13,7 +13,6 @@ async function secretFiles (req, res) {
   const { fileName } = req.query
   try {
     if (fileName) {
-      console.log("filename", fileName)
       const data = await formatFiles([fileName])
 
       if (!data.length) {
@@ -37,10 +36,22 @@ async function secretFiles (req, res) {
 async function unFormattedSecretFiles (req, res) {
   try {
     const { files } = await getSecretFiles()
+    let concatenatedData = '';
+    let headerIncluded = false;
 
-    const format = await unformattedFiles(files)
+    for (const filename of files) {
+      const response = await downloadSecretFile(filename)
 
-    return res.status(200).json({ success: true, data: format })
+      const lines = response.split('\n');
+      if (headerIncluded) {
+        concatenatedData += lines.slice(1).join('\n') + '\n';
+      } else {
+        concatenatedData += response + '\n';
+        headerIncluded = true;
+      }
+    }
+    res.header('Content-Type', 'text/csv');
+    return res.send(concatenatedData)
   } catch (error) {
     console.log(error)
     return res.status(500).json({ success: false, message: 'Internal server error' })

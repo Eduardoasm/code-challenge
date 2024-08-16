@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start:api": "cd api && npm start",
     "start:client": "cd client && npm start",
-    "start": "concurrently \"npm run start:api\" \"npm run start:client\""
+    "start": "concurrently \"npm run start:api\" \"npm run start:client\"",
+    "test:api": "cd api && npm run test",
+    "test": "npm run test:api"
   },
   "keywords": [],
   "author": "",
