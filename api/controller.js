@@ -1,4 +1,4 @@
-const { getSecretFiles, downloadSecretFile } = require('./service.js')
+const { getSecretFiles } = require('./service.js')
 const { formatFiles, unformattedFiles } = require('./dataProcessing.js')
 
 /**
@@ -13,8 +13,12 @@ async function secretFiles (req, res) {
   const { fileName } = req.query
   try {
     if (fileName) {
-
+      console.log("filename", fileName)
       const data = await formatFiles([fileName])
+
+      if (!data.length) {
+        throw new Error('Invalid File')
+      }
 
       return res.status(200).json(data)
     } else {

@@ -13,18 +13,20 @@ export function fetchSecretFiles(){
           payload: data
         })
     }catch(error){
-      console.log({error})           
+      console.log({error})
+      throw new Error("error", error)        
 }}}
 
-export function fetchSecretFileByQuey(fileName){
+export function fetchSecretFileByQuery(fileName){
   return async function(dispatch){
     try{
       let { data } = await axios.get(`http://localhost:3000/files/data?fileName=${fileName}`)
       dispatch(
         {
-          type: FETCH_SECRET_FILE_BY_QUERY,
+          type: FETCH_SECRET_FILES,
           payload: data
         })
     }catch(error){
-      console.log({error})           
+      console.log({error})
+      throw new Error("error", error)
 }}}

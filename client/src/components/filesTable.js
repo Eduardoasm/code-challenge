@@ -3,7 +3,6 @@ import { fetchSecretFiles } from '../redux/actions-files';
 import { useDispatch, useSelector } from 'react-redux'
 
 export function FilesTable() {
-
   const dispatch = useDispatch();
 
   const secretFiles = useSelector(state => state.secretFiles)
@@ -17,8 +16,8 @@ export function FilesTable() {
     }))
   );
 };
-  const transformedData = secretFiles.length ? transformData(secretFiles) : []
-  
+  const transformedData = secretFiles?.length ? transformData(secretFiles) : []
+
   React.useEffect(()=> {
     if (!secretFiles.length) {
       dispatch(fetchSecretFiles())
@@ -33,12 +32,12 @@ export function FilesTable() {
       transformedData.length
       ? 
       <div class="p-5 d-flex align-items-center justify-content-center">
-        <table class="table table-striped w-75 h25 table-bordered">
-          <thead class="border-3 p-3">
+        <table class="table table-striped w-75 table-bordered">
+          <thead style={{ borderBottomWidth: '3px', borderBottomColor: '#343a40', borderBottomStyle: 'solid' }}>
             <tr>
               {
                 fileHeaders.map((header) => (
-                  <th scope="col">{header}</th>
+                  <th scope="col" style={{ padding: '15px 10px' }}>{header}</th>
                 ))
               }
             </tr>
@@ -47,7 +46,7 @@ export function FilesTable() {
             {
               transformedData.map((file) =>  (
                 <tr>
-                  <th scope="row">{file.file}</th>
+                  <td>{file.file}</td>
                   <td>{file.text}</td>
                   <td>{file.number}</td>
                   <td>{file.hex}</td>
