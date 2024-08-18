@@ -1,5 +1,10 @@
 # code-challenge
 
+### Versiones utilizadas
+
+Api: NodeJs 14.18.0
+
+Client: NodeJs 16.0.0
 
 ### Explicación
 
